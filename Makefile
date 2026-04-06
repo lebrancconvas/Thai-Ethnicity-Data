@@ -1,3 +1,6 @@
+scrape:
+	python3 ./utils/scrape.py   
+
 clean:  
 	rm **/*.Identifier 
 
