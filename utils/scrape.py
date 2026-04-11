@@ -31,6 +31,8 @@ def get_data_url():
       url = data.get_attribute("href")
       ethnicity_data_url.append(url)
     
+    browser.close()
+    
     return ethnicity_data_url
 
 def save():
@@ -45,9 +47,22 @@ def save():
   with open(output_path, "w", encoding="utf-8") as file:
       file.write(write_line)
 
-def run():
-  save()  
+def get_information():
+  with open("./output/text/url.txt", "r", encoding="utf-8") as file:
+    urls = file.readlines()
+  for url in urls:
+    with sync_playwright() as p:
+      browser = p.chromium.launch(headless=True)
+      context = browser.new_context()
+      page = context.new_page() 
 
+      format_url = url.split("\\")[0]
+      page.goto(format_url)
+      print(f"[LOG] Scraping Data from URL: {format_url}")
+
+
+def run():
+  get_information() 
 
 if __name__ == "__main__":
   run()  
