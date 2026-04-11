@@ -1,10 +1,10 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright  
 
 BASE_URL = "https://ethnicity.sac.or.th/database-ethnic"
 
 BASE_PATH = "../data/base/markdown"
 
-def run():
+def get_data_url():
   with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     context = browser.new_context()
@@ -25,16 +25,29 @@ def run():
     result = page.query_selector_all(ETHNIC_LIST_SELECTOR)
     
     # Save Data URL
-
     ethnicity_data_url = []
 
     for data in result:
       url = data.get_attribute("href")
       ethnicity_data_url.append(url)
     
-    print(ethnicity_data_url)
-    print(f"Size of Data: {len(ethnicity_data_url)}")
     return ethnicity_data_url
 
+def save():
+  urls = get_data_url()
+  output_path = "./output/text/url.txt"
+
+  write_line = ""
+
+  for url in urls:
+    write_line += f"{url}\n"
+
+  with open(output_path, "w", encoding="utf-8") as file:
+      file.write(write_line)
+
+def run():
+  save()  
+
+
 if __name__ == "__main__":
-  run()
+  run()  
