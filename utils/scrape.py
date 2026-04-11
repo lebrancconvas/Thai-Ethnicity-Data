@@ -60,6 +60,19 @@ def get_information():
       page.goto(format_url)
       print(f"[LOG] Scraping Data from URL: {format_url}")
 
+      INTRO_SELECTOR = ".pageDetailIntro"
+      CONTENT_SELECTOR = ".pageDetailContent"
+      PDF_DOWNLOAD_BUTTON_SELECTOR = "body > div.mainPage > div.mainPageContent > div.sectionPage.pageSiteDetail > div > div.article-wrapper > div > article > header > div.pageDetailContentHeader.justify-content-end > button"
+
+      intro = page.locator(INTRO_SELECTOR).all_text_contents()
+      content = page.locator(CONTENT_SELECTOR).all_text_contents()
+      pdf_download_button = page.locator(PDF_DOWNLOAD_BUTTON_SELECTOR).all_text_contents()
+
+      # if pdf_download_button:
+      #   print(f"[LOG] This URL have button for URL Download.")
+      # else:
+      #   print(f"[LOG] This URL doesn't have button for URL Download.")
+      print(pdf_download_button)  
 
 def run():
   get_information() 
