@@ -49,63 +49,17 @@ def get_data(url: str):
     content_body += f"ID: {ID}\nTitle: {TITLE}\n"
 
     CONTENT_INTRO_SELECTOR = ".pageDetailIntro"
-    intro_content = page.locator(CONTENT_INTRO_SELECTOR).all_text_contents()[0]
+    intro_content = page.locator(CONTENT_INTRO_SELECTOR).inner_text()  
     content_body += "\n========= บทนำ =========\n"
-    content_body += f"{intro_content}\n"
+    content_body += f"{intro_content.strip()}\n"
 
     CONTENT_BODY_SELECTOR = ".accordion-body"
 
-    # Section 01: ข้อมูลพื้นฐาน
-    section_01_content = page.locator(CONTENT_BODY_SELECTOR).all()
+    main_content = page.locator(CONTENT_BODY_SELECTOR).all()
 
     content_body += "\n========= ข้อมูล =========\n" 
-    for content in section_01_content:
-      content_body += f"{content.inner_text()}\n"
-
-    # Section 02: ประวัติศาสตร์ 
-    # SECTION_02_SELECTOR = "#detailSidebar > div > ul > li:nth-child(2)"
-    # page.locator(SECTION_02_SELECTOR).click()
-    # page.locator("li").get_by_text("ประวัติศาสตร์").click()
-    # page.wait_for_timeout(2000)
-    # section_02_content = page.locator(CONTENT_BODY_SELECTOR).all_text_contents()[0]
-    # content_body += "\n========= ประวัติศาสตร์ =========\n"
-    # content_body += f"{section_02_content}\n"
-
-    # # Section 03: การตั้งถิ่นฐานและการกระจายตัว
-    # # SECTION_03_SELECTOR = "#detailSidebar > div > ul > li:nth-child(3)"
-    # # page.locator(SECTION_03_SELECTOR).click()
-    # page.locator("li").get_by_text("การตั้งถิ่นฐานและกระจายตัว").click()
-    # page.wait_for_timeout(2000)
-    # section_03_content = page.locator(CONTENT_BODY_SELECTOR).all_text_contents()[0]
-    # content_body += "\n========= การตั้งถิ่นฐานและการขยายตัว =========\n"
-    # content_body += f"{section_03_content}\n"
-
-    # # Section 04: วิถีชีวิตและวัฒนธรรม
-    # # SECTION_04_SELECTOR = "#detailSidebar > div > ul > li:nth-child(4)"
-    # # page.locator(SECTION_04_SELECTOR).click()
-    # page.locator("li").get_by_text("วิถีชีวิตและวัฒนธรรม").click()
-    # page.wait_for_timeout(2000)
-    # section_04_content = page.locator(CONTENT_BODY_SELECTOR).all_text_contents()[0]
-    # content_body += "\n========= วิถีชีวิตและวัฒนธรรม =========\n"
-    # content_body += f"{section_04_content}\n"
-
-    # # Section 05: งานวิจัยที่เกี่ยวข้อง
-    # # SECTION_05_SELECTOR = "#detailSidebar > div > ul > li:nth-child(5)"
-    # # page.locator(SECTION_05_SELECTOR).click()
-    # page.locator("li").get_by_text("งานวิจัยที่เกี่ยวข้อง").click()
-    # page.wait_for_timeout(2000)
-    # section_05_content = page.locator(CONTENT_BODY_SELECTOR).all_text_contents()[0]
-    # content_body += "\n========= งานวิจัยที่เกี่ยวข้อง =========\n"
-    # content_body += f"{section_05_content}\n"
-
-    # Section 06: อ้างอิง  
-    # SECTION_06_SELECTOR = "#detailSidebar > div > ul > li:nth-child(6)"
-    # page.locator(SECTION_06_SELECTOR).click()
-    # page.locator("li").get_by_text("อ้างอิง").click()  
-    # page.wait_for_timeout(2000)
-    # section_06_content = page.locator(CONTENT_BODY_SELECTOR).all_text_contents()[0]
-    # content_body += "\n========= อ้างอิง =========\n"
-    # content_body += f"{section_06_content}\n"
+    for content in main_content:
+      content_body += f"{content.inner_text().strip()}\n"
 
     with open(f"./data/knowledge/text/web_information/{FILE_NAME}.txt", "w", encoding="utf-8") as f:
       f.write(content_body)
